@@ -26,37 +26,37 @@ class UserSelection:
 
     def case_1(self):
         """User selected print a list of all employees"""
-
+        # trigger an action
         pass
 
     def case_2(self):
         """User selected Print a list of employees currently employed"""
-
+        # trigger an action
         pass
 
     def case_3(self):
         """User selected Print a list of employees who have left in the past month"""
-
+        # trigger an action
         pass
 
     def case_4(self):
         """User selected Display a reminder to schedule annual review"""
-
+        # trigger an action
         pass
 
     def case_5(self):
         """User selected Capture employee information"""
-
+        # trigger an action
         pass
 
     def case_6(self):
         """User selected Delete record"""
-
+        # trigger an action
         pass
 
     def case_7(self):
         """User selected Exit"""
-
+        # trigger an action
         print("Goodbye ")
 
         sys.exit()

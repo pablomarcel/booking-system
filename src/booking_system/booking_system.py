@@ -9,6 +9,8 @@ import re
 from IOClasses import UserSelection as us
 from IOClasses import IO as io
 
+
+
 result = pyfiglet.figlet_format("b o o k i n g s", font="slant")
 strStatus = ""
 
@@ -17,8 +19,6 @@ strStatus = ""
 if __name__ == "__main__":
 
     while True:
-
-        # reminder for annual review can be a separate class
 
         print(result)
         print("Menu of Options")
