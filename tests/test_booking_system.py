@@ -1,10 +1,44 @@
-import booking_system.booking_system
+#import booking_system.booking_system
+import booking_system.ProcessingClasses
+import booking_system.DataClasses
+# import booking_system.IOClasses
 import pandas as pd
 from pandas._testing import assert_frame_equal
 import re
 
-# next employee id testing
+# Validate if a package can be shipped
 
-def test_1():
+def test_validate_booking_1():
+    objP1 = booking_system.DataClasses.Customer('Pablo', 'Marcel')
+    objPac1 = booking_system.DataClasses.Package('dangerous', 5, 120, '07/01/2021')
+    book1 = booking_system.DataClasses.Booking(objP1, objPac1)
+    assert booking_system.ProcessingClasses.FileProcessor.validate_booking(book1) == True
+    pass
 
+def test_validate_booking_2():
+    objP1 = booking_system.DataClasses.Customer('Pablo', 'Marcel')
+    objPac1 = booking_system.DataClasses.Package('dangerous', 5, 125, '07/01/2021')
+    book1 = booking_system.DataClasses.Booking(objP1, objPac1)
+    assert booking_system.ProcessingClasses.FileProcessor.validate_booking(book1) == False
+    pass
+
+def test_validate_booking_3():
+    objP1 = booking_system.DataClasses.Customer('Pablo', 'Marcel')
+    objPac1 = booking_system.DataClasses.Package('dangerous', 10, 120, '07/01/2021')
+    book1 = booking_system.DataClasses.Booking(objP1, objPac1)
+    assert booking_system.ProcessingClasses.FileProcessor.validate_booking(book1) == False
+    pass
+
+def test_validate_booking_4():
+    objP1 = booking_system.DataClasses.Customer('Pablo', 'Marcel')
+    objPac1 = booking_system.DataClasses.Package('dangerous', 10, 125, '07/01/2021')
+    book1 = booking_system.DataClasses.Booking(objP1, objPac1)
+    assert booking_system.ProcessingClasses.FileProcessor.validate_booking(book1) == False
+    pass
+
+def test_validate_booking_5():
+    objP1 = booking_system.DataClasses.Customer('Pablo', 'Marcel')
+    objPac1 = booking_system.DataClasses.Package('dangerous', 5, 120, '07/01/2021')
+    book1 = booking_system.DataClasses.Booking(objP1, objPac1)
+    assert booking_system.ProcessingClasses.FileProcessor.validate_booking(book1) == True
     pass
