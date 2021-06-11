@@ -136,6 +136,6 @@ class Package:
 
     def __str__(self):
         """ Implicitly returns a string with this object's data """
-        return self.content + ',' + self.weight
+        return self.content + ',' + self.weight + ',' + self.volume + ',' + self.delivery_date
 
 
