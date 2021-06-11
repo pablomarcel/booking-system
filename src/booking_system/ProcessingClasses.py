@@ -12,15 +12,45 @@ import re
 
 class FileProcessor:
     """Processes data to and from a file and a list of objects:
-
     methods:
+        validate_booking(booking): -> (Boolean)
         save_data_to_file(file_name,list_of_objects):
-
         read_data_from_file(file_name): -> (a list of objects)
-
-    changelog: (When,Who,What)
-
     """
+
+    @staticmethod
+    def validate_booking(booking):
+        """ validate a booking
+        :param booking: (object) object that represents a booking
+        :return: (bool) with status of success status
+        """
+        # how to translate the representation of an object as variables
+
+        success_status = False
+        heavy = False
+        large = False
+        contents = booking.content
+        weight = booking.weight
+        volume = booking.volume
+        del_date = booking.delivery_date
+
+        if weight >= 10:
+            heavy = True
+
+        if volume >= 125:
+            large = True
+
+        if contents == 'Dangerous':
+            dangerous = True
+
+        if heavy == True:
+            success_status=False
+        elif large == True:
+            success_status=False
+        else:
+            success_status=True
+
+        return success_status
 
     @staticmethod
     def save_data_to_file(file_name: str, list_of_objects: list):
@@ -61,52 +91,19 @@ class FileProcessor:
             print(e, e.__doc__, type(e), sep='\n')
         return list_of_rows
 
-class Booking:
-    """Stores data about a Booking:
 
-    properties:
-        customer: (object) object that represents the customer
-        package: (object) object that represents the package
 
-    methods:
-        to_string() returns comma separated booking data (alias for __str__())
-
-    """
-
-    # -- Constructor --
-    def __init__(self, customer, package):
-        # -- Attributes --
-        self.__customer = customer
-        self.__package = package
-
-    # -- Properties --
-    @property
-    def customer(self):
-        return str(self.__customer)
-
-    @customer.setter
-    def customer(self, value):
-        if not str(value).isnumeric():
-            self.__customer = value
-        else:
-            raise Exception("Customer cannot be numbers")
-
-    @property
-    def package(self):
-        return str(self.__package)
-
-    @package.setter
-    def package(self, value):
-        if not str(value).isnumeric():
-            self.__package = value
-        else:
-            raise Exception("Package cannot be numbers")
-
-    # -- Methods --
-    def to_string(self):
-        """ Explicitly returns a string with this object's data """
-        return self.__str__()
-
-    def __str__(self):
-        """ Implicitly returns a string with this object's data """
-        return self.customer + ',' + self.package
+# class ValidateBooking:
+#     """Validates a Booking:
+#
+#     properties:
+#         booking: (object) object that represents a booking
+#
+#     methods:
+#         to_string() returns comma separated booking data (alias for __str__())
+#
+#     """
+#     # -- Constructor --
+#     def __init__(self, booking):
+#         # -- Attributes --
+#         self.__booking = booking

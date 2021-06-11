@@ -98,29 +98,29 @@ class Package:
 
     @property
     def weight(self):
-        return str(self.__weight).title()
+        return self.__weight
 
     @weight.setter
     def weight(self, value):
-        if not str(value).isnumeric():
+        if not str(value).isalpha():
             self.__weight = value
         else:
-            raise Exception("Weight cannot be numbers")
+            raise Exception("Weight cannot be letters")
 
     @property
     def volume(self):
-        return str(self.__volume).title()
+        return self.__volume
 
     @volume.setter
     def volume(self, value):
-        if not str(value).isnumeric():
+        if not str(value).isalpha():
             self.__volume = value
         else:
-            raise Exception("Volume cannot be numbers")
+            raise Exception("Volume cannot be letters")
 
     @property
     def delivery_date(self):
-        return str(self.__delivery_date).title()
+        return str(self.__delivery_date)
 
     @delivery_date.setter
     def delivery_date(self, value):
@@ -136,6 +136,102 @@ class Package:
 
     def __str__(self):
         """ Implicitly returns a string with this object's data """
-        return self.content + ',' + self.weight + ',' + self.volume + ',' + self.delivery_date
+        return f'{self.content},{self.weight},{self.volume},{self.delivery_date}'
 
+class Booking:
+    """Stores data about a Booking:
 
+    properties:
+        customer: (object) object that represents the customer
+        package: (object) object that represents the package
+
+    methods:
+        to_string() returns comma separated booking data (alias for __str__())
+
+    """
+
+    # -- Constructor --
+    def __init__(self, customer, package):
+        # -- Attributes --
+        self.__customer = customer
+        self.__package = package
+        self.__content = package.content
+        self.__weight = package.weight
+        self.__volume = package.volume
+        self.__delivery_date = package.delivery_date
+
+    # -- Properties --
+    @property
+    def customer(self):
+        return str(self.__customer)
+
+    @customer.setter
+    def customer(self, value):
+        if not str(value).isnumeric():
+            self.__customer = value
+        else:
+            raise Exception("Customer cannot be numbers")
+
+    @property
+    def package(self):
+        return str(self.__package)
+
+    @package.setter
+    def package(self, value):
+        if not str(value).isnumeric():
+            self.__package = value
+        else:
+            raise Exception("Package cannot be numbers")
+
+    @property
+    def content(self):
+        return str(self.__content)
+
+    @content.setter
+    def content(self, value):
+        if not str(value).isnumeric():
+            self.__content = value
+        else:
+            raise Exception("Content cannot be numbers")
+
+    @property
+    def weight(self):
+        return self.__weight
+
+    @weight.setter
+    def weight(self, value):
+        if not str(value).isalpha():
+            self.__weight = value
+        else:
+            raise Exception("Weight cannot be letters")
+
+    @property
+    def volume(self):
+        return self.__volume
+
+    @volume.setter
+    def volume(self, value):
+        if not str(value).isalpha():
+            self.__volume = value
+        else:
+            raise Exception("Volume cannot be letters")
+
+    @property
+    def delivery_date(self):
+        return str(self.__delivery_date)
+
+    @delivery_date.setter
+    def delivery_date(self, value):
+        if not str(value).isnumeric():
+            self.__delivery_date = value
+        else:
+            raise Exception("Delivery date cannot be numbers")
+
+    # -- Methods --
+    def to_string(self):
+        """ Explicitly returns a string with this object's data """
+        return self.__str__()
+
+    def __str__(self):
+        """ Implicitly returns a string with this object's data """
+        return f'{self.customer},{self.package}'
