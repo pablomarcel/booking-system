@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 from tabulate import tabulate
 import dateutil
-import datetime
+from datetime import datetime
 import re
 
 class FileProcessor:
@@ -40,9 +40,6 @@ class FileProcessor:
         if volume >= 125:
             large = True
 
-        if contents == 'Dangerous':
-            dangerous = True
-
         if heavy == True:
             success_status=False
         elif large == True:
@@ -51,6 +48,48 @@ class FileProcessor:
             success_status=True
 
         return success_status
+
+    @staticmethod
+    def generate_booking_quote(booking):
+        """ Generate a booking quote if the package can be shipped
+        :param booking: (object) object that represents a booking
+        :return: (list) list of objects that represent shipping options
+        """
+
+        lst_shipping = []
+        dangerous = False
+        urgent = False
+        air = False
+        ocean = False
+        truck = True
+
+        del_date = booking.delivery_date
+
+        dt_obj = datetime.strptime(del_date, '%m/%d/%y')
+
+        date = datetime.today().replace(microsecond=0)
+
+        delta = dt_obj - date
+
+        day_delta = int(delta.days)
+
+        if day_delta < 3:
+            urgent = True
+
+        contents = booking.content
+
+        if contents == 'Dangerous':
+            dangerous = True
+
+        if dangerous == False and urgent == True:
+            air = True
+
+        if (dangerous == False and urgent == False) or (dangerous == True and urgent == False):
+
+            ocean = True
+
+        return air, truck, ocean
+
 
     @staticmethod
     def save_data_to_file(file_name: str, list_of_objects: list):
