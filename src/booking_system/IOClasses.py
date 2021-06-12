@@ -136,9 +136,17 @@ class UserSelection:
 
                     pass
 
+            df_options = IO.get_options_db()
+            new_df_options = df_options.copy()
+            print(tabulate(new_df_options, headers="keys", tablefmt="psql", showindex=True))
+
+
+
         else:
 
             print('Booking Not Possible. Try Again! ')
+
+
 
         pass
 
