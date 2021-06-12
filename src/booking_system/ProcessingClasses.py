@@ -10,7 +10,6 @@ import dateutil
 from datetime import datetime
 import re
 
-
 class FileProcessor:
     """Processes data to and from a file and a list of objects:
     methods:
@@ -194,6 +193,55 @@ class FileProcessor:
         """
 
         df.to_csv("options.csv", index=False)
+
+    @staticmethod
+    def append_row(
+        df, id, first, last, contents, weight, volume, deliveryDate, shippingOption, cost
+    ):
+        """Generates a row of data to be appended to a pandas DataFrame
+        :param dframe: (Pandas DataFrame) DataFrame containing employee information
+        :param id: (Integer) Next ID to be used for an employee record
+        :param first: (String) First Name to be used for an employee record
+        :param last: (String) Last Name to be used for an employee record
+        :param full: (String) Full Name to be used for an employee record
+        :param address: (String) Address to be used for an employee record
+        :param ssn: (String) Social Security Number to be used for an employee record
+        :param dob: (String) Date of Birth to be used for an employee record
+        :param job: (String) Job Title to be used for an employee record
+        :param startDate: (String) Start Date to be used for an employee record
+        :param endDate: (String) End Date to be used for an employee record
+        :return df: (Pandas DataFrame) a new Pandas DataFrame to be written to a csv
+        """
+
+        new_row = {
+            "BookingID": id,
+            "firstName": first,
+            "lastName": last,
+            "contents": contents,
+            "weight": weight,
+            "volume": volume,
+            "deliveryDate": deliveryDate,
+            "shippingOption": shippingOption,
+            "cost": cost,
+        }
+
+        # append row to the dataframe
+
+        df = df.append(new_row, ignore_index=True)
+
+        return df
+
+    @staticmethod
+    def append_to_csv(df):
+        """Writes a new DataFarme to the csv file.
+        This method is used when the user decides to add a new record to the csv
+        :param df: (Pandas DataFrame) DataFrame containing employee information
+        :return: nothing
+        """
+
+        df.to_csv("bookings.csv", index=False)
+
+
 
 # class ValidateBooking:
 #     """Validates a Booking:

@@ -161,22 +161,17 @@ class UserSelection:
             shipping_method = selected_df.iat[0,0]
             cost = selected_df.iat[0,1]
 
-            print(shipping_method, type(shipping_method))
-            print(cost, type(cost))
-
             shipping = Ship(shipping_method, cost)
-
-            # print(Cus(firstName, lastName))
-            # print(Pac(contents, weight, volume, deliveryDate))
-            # print(Ship(shipping_method, cost))
-            #
-            # print(shipping)
 
             booking_quote = BQ(Cus(firstName,lastName),
                                Pac(contents,weight,volume,deliveryDate),
                                Ship(shipping_method, cost))
 
-            print(booking_quote)
+            # trigger event to append booking quote to bookings csv file
+
+            # Process booking_quote
+
+            IO.add_booking_quote(booking_quote)
 
         else:
 
@@ -498,3 +493,38 @@ class IO:
         df = pd.read_csv("options.csv")
 
         return df
+
+    @staticmethod
+    def add_booking_quote(booking_quote):
+        """Writes a new DataFarme to the csv file.
+        This method is used when the user decides to add a new record to the csv
+        :param df: (Pandas DataFrame) DataFrame containing employee information
+        :return: nothing
+        """
+        df = IO.get_bookings_db()
+        bookingId = Fp.generate_booking_id(df)
+        firstName = booking_quote.first_name
+        lastName = booking_quote.last_name
+        contents = booking_quote.content
+        weight = booking_quote.weight
+        volume = booking_quote.volume
+        deliveryDate = booking_quote.delivery_date
+        shippingOption = booking_quote.shipping_method
+        cost = booking_quote.cost
+
+        df = Fp.append_row(
+            df,
+            bookingId,
+            firstName,
+            lastName,
+            contents,
+            weight,
+            volume,
+            deliveryDate,
+            shippingOption,
+            cost,
+        )
+
+        Fp.append_to_csv(df)
+
+        pass

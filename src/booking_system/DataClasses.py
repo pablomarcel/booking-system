@@ -188,7 +188,7 @@ class Shipping:
 
     def __str__(self):
         """Implicitly returns a string with this object's data"""
-        return self.shipping_method + "," + self.cost
+        return f"{self.shipping_method},{self.cost}"
 
 class Booking:
     """Stores data about a single Booking:
@@ -328,6 +328,28 @@ class BookingQuote:
             self.__customer = value
         else:
             raise Exception("Customer cannot be numbers")
+
+    @property
+    def first_name(self):
+        return str(self.__first_name)
+
+    @first_name.setter
+    def first_name(self, value):
+        if not str(value).isnumeric():
+            self.__first_name = value
+        else:
+            raise Exception("First Name cannot be numbers")
+
+    @property
+    def last_name(self):
+        return str(self.__last_name)
+
+    @last_name.setter
+    def last_name(self, value):
+        if not str(value).isnumeric():
+            self.__last_name = value
+        else:
+            raise Exception("Last Name cannot be numbers")
 
     @property
     def package(self):
