@@ -15,6 +15,8 @@ from ProcessingClasses import FileProcessor as Fp
 from DataClasses import Booking as Bk
 from DataClasses import Customer as Cus
 from DataClasses import Package as Pac
+from DataClasses import BookingQuote as BQ
+from DataClasses import Shipping as Ship
 
 class UserSelection:
     """Handles User Selection Logic
@@ -154,7 +156,27 @@ class UserSelection:
 
             print(tabulate(selected_df, headers="keys", tablefmt="psql", showindex=False))
 
-            # trigger event for appending to csv file
+            # trigger event for appending to bookings csv file
+
+            shipping_method = selected_df.iat[0,0]
+            cost = selected_df.iat[0,1]
+
+            print(shipping_method, type(shipping_method))
+            print(cost, type(cost))
+
+            shipping = Ship(shipping_method, cost)
+
+            # print(Cus(firstName, lastName))
+            # print(Pac(contents, weight, volume, deliveryDate))
+            # print(Ship(shipping_method, cost))
+            #
+            # print(shipping)
+
+            booking_quote = BQ(Cus(firstName,lastName),
+                               Pac(contents,weight,volume,deliveryDate),
+                               Ship(shipping_method, cost))
+
+            print(booking_quote)
 
         else:
 
