@@ -12,6 +12,7 @@ import dateutil
 import datetime
 import re
 
+
 class Customer:
     """Stores data about a Customer:
 
@@ -55,12 +56,13 @@ class Customer:
 
     # -- Methods --
     def to_string(self):
-        """ Explicitly returns a string with this object's data """
+        """Explicitly returns a string with this object's data"""
         return self.__str__()
 
     def __str__(self):
-        """ Implicitly returns a string with this object's data """
-        return self.first_name + ',' + self.last_name
+        """Implicitly returns a string with this object's data"""
+        return self.first_name + "," + self.last_name
+
 
 class Package:
     """Stores data about a Customer:
@@ -131,15 +133,16 @@ class Package:
 
     # -- Methods --
     def to_string(self):
-        """ Explicitly returns a string with this object's data """
+        """Explicitly returns a string with this object's data"""
         return self.__str__()
 
     def __str__(self):
-        """ Implicitly returns a string with this object's data """
-        return f'{self.content},{self.weight},{self.volume},{self.delivery_date}'
+        """Implicitly returns a string with this object's data"""
+        return f"{self.content},{self.weight},{self.volume},{self.delivery_date}"
+
 
 class Booking:
-    """Stores data about a Booking:
+    """Stores data about a single Booking:
 
     properties:
         customer: (object) object that represents the customer
@@ -229,9 +232,16 @@ class Booking:
 
     # -- Methods --
     def to_string(self):
-        """ Explicitly returns a string with this object's data """
+        """Explicitly returns a string with this object's data"""
         return self.__str__()
 
     def __str__(self):
-        """ Implicitly returns a string with this object's data """
-        return f'{self.customer},{self.package}'
+        """Implicitly returns a string with this object's data"""
+        return f"{self.customer},{self.package}"
+
+
+class BookingQuote:
+    """Stores data about a shipping options for a Booking:
+
+    """
+

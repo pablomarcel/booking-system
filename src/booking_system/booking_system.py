@@ -10,7 +10,6 @@ from IOClasses import UserSelection as us
 from IOClasses import IO as io
 
 
-
 result = pyfiglet.figlet_format("b o o k i n g s", font="slant")
 strStatus = ""
 
@@ -31,7 +30,7 @@ if __name__ == "__main__":
         print(io.get_menu(7))
         print()
 
-# menu printed
+        # menu printed
 
         strChoice = io.input_menu_choice()  # Get menu option
 

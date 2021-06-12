@@ -1,1 +1,2 @@
-firstName, lastName, contents, weight, volume, deliveryDate, shippingOption, cost
+BookingID,firstName,lastName,contents,weight,volume,deliveryDate,shippingOption,cost
+10000001,Pablo,Marcel,Dangerous,10,100,7/1/21,truck,25
