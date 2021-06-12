@@ -140,7 +140,21 @@ class UserSelection:
             new_df_options = df_options.copy()
             print(tabulate(new_df_options, headers="keys", tablefmt="psql", showindex=True))
 
+            # trigger event to ask for user input
 
+            strChoice = IO.input_booking_choice()
+
+            # selected shipping method
+
+            new_df_options = new_df_options.filter(like=strChoice, axis=0)
+
+            selected_df = new_df_options.copy()
+
+            print('Selected Shipping Option is: ')
+
+            print(tabulate(selected_df, headers="keys", tablefmt="psql", showindex=False))
+
+            # trigger event for appending to csv file
 
         else:
 
@@ -240,6 +254,28 @@ class IO:
                 ).strip()
                 if choice not in ["1", "2", "3", "4", "5", "6", "7"]:
                     raise ValueError("Choice not an option, enter 1, 2, 3, 4, 5, 6, 7")
+            except ValueError as e:
+                print(e)
+            else:
+                break
+        print()  # Add an extra line for looks
+
+        return choice
+
+    @staticmethod
+    def input_booking_choice():
+        """Gets the menu choice from a user
+        :param: None
+        :return: string
+        """
+
+        while True:
+            try:
+                choice = str(
+                    input("Which booking option would you like? Enter Number Option - ")
+                )
+                if choice not in ['0', '1', '2']:
+                    raise ValueError("Choice not an option, possible values are 0, 1, 2")
             except ValueError as e:
                 print(e)
             else:
