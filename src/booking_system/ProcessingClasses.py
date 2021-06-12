@@ -143,6 +143,16 @@ class FileProcessor:
         dframe.to_csv("bookings.csv", index=False)
 
     @staticmethod
+    def update_options_csv(dframe):
+        """Writes the filtered DataFrame to a csv file.
+        This method is used when the user decides to delete record
+        :param dframe: (Pandas DataFrame) DataFrame containing employee information
+        :return: nothing
+        """
+
+        dframe.to_csv("options.csv", index=False)
+
+    @staticmethod
     def generate_booking_id(dframe):
         """Generates unique employee id for the next employee to be added
         :param dframe: (Pandas DataFrame) DataFrame containing employee information

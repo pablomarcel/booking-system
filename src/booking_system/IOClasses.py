@@ -59,6 +59,14 @@ class UserSelection:
             # the tuple contains boolean values for
             # each variable
 
+
+            df = IO.get_options_db()
+            dframe = df[(df.ShippingMethod == 123)]
+            new_df = dframe.copy()
+            #print(tabulate(new_df, headers="keys", tablefmt="psql", showindex=False))
+
+            Fp.update_options_csv(new_df)
+
             options_dict = dict()
             new_dict = dict()
 
@@ -128,100 +136,10 @@ class UserSelection:
 
                     pass
 
-
-            # print(new_dict)
-
-            # print(Fp.generate_booking_quote(booking))
-
-            # if air:
-            #
-            #     shipping = 'air'
-            #
-            #     cost1= 10*weight
-            #
-            #     highest = cost1
-            #
-            #     cost2= 20*volume
-            #
-            #     if cost2>cost1:
-            #
-            #         highest = cost2
-            #
-                # df = Fp.append_option_row(
-                #     IO.get_options_db(),
-                #     shipping,
-                #     highest,
-                # )
-            #
-            #     pass
-            #
-            # if ocean:
-            #
-            #     shipping = 'ocean'
-            #
-                # highest = 30
-                #
-                # df = Fp.append_option_row(
-                #     IO.get_options_db(),
-                #     shipping,
-                #     highest,
-                # )
-            #
-            #     pass
-            #
-            # if truck:
-            #
-            #     shipping = 'truck'
-            #
-                # if urgent:
-                #
-                #     highest = 45
-                #
-                # else:
-                #
-                #     highest = 25
-                #
-                # df = Fp.append_option_row(
-                #     IO.get_options_db(),
-                #     shipping,
-                #     highest,
-                # )
-            #
-            #     pass
-
-
-
         else:
 
             print('Booking Not Possible. Try Again! ')
 
-
-
-        # generate a dataframe and print it to screen
-
-
-
-        # df = Processor.append_row(
-        #     IO.get_bookings_db(),
-        #     employeeID,
-        #     firstName,
-        #     lastName,
-        #     fullName,
-        #     address,
-        #     ssn,
-        #     dateOfBirth,
-        #     jobTitle,
-        #     startDate,
-        #     endDate,
-        # )
-        #
-        # Processor.append_to_csv(df)
-
-        pass
-
-
-
-        # trigger an action
         pass
 
     def case_2(self):
