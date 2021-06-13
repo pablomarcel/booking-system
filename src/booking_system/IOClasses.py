@@ -57,7 +57,6 @@ class UserSelection:
 
         if isPossible:
 
-
             # creates a blank dataframe
 
             df = IO.get_options_db()
@@ -278,6 +277,7 @@ class UserSelection:
         print("Goodbye ")
 
         sys.exit()
+
 
 class IO:
     """Performs Input and Output tasks"""

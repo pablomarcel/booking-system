@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
         strChoice = io.input_menu_choice()
 
-        #creates a UserSelection object
+        # creates a UserSelection object
 
         s = us()
         s.switch(

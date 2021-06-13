@@ -233,6 +233,3 @@ class FileProcessor:
         """
 
         df.to_csv("bookings.csv", index=False)
-
-
-
