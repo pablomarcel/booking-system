@@ -182,8 +182,13 @@ class UserSelection:
         pass
 
     def case_2(self):
-        """User selected Print a list of employees currently employed"""
+        """User selected Display all Bookings"""
         # trigger an action
+
+        IO.print_all_bookings(IO.get_bookings_db())
+
+
+
         pass
 
     def case_3(self):
@@ -415,12 +420,7 @@ class IO:
         while True:
             try:
                 strText = float(input("Enter Weight: "))
-                # if strText.isalpha():
-                #     raise ValueError(
-                #         "Weight is alpha. Enter a valid Weight: "
-                #     )
-                # elif strText == "":
-                #     raise ValueError("Weight is empty. Enter a valid Weight: ")
+
             except ValueError:
                 print('Not a number! Try again. ')
                 continue
@@ -438,10 +438,7 @@ class IO:
         while True:
             try:
                 strText = float(input("Enter Volume: "))
-                # if strText.isalpha():
-                #     raise ValueError("Volume is alpha. Enter a valid Volume: ")
-                # elif strText == "":
-                #     raise ValueError("Volume is empty. Enter a valid Volume: ")
+
             except ValueError:
                 print('Not a number! Try again. ')
                 continue
@@ -528,3 +525,19 @@ class IO:
         Fp.append_to_csv(df)
 
         pass
+
+    @staticmethod
+    def print_all_bookings(dframe):
+        """Displays all employees
+        :param dframe: (Pandas DataFrame) a Pandas DataFrame containing all employee info.
+        :return: nothing
+        """
+        # IO.print_header()
+        # print("List of all employees: ")
+        # IO.print_footer()
+
+        df = dframe.copy()
+
+        df["deliveryDate"] = pd.to_datetime(df["deliveryDate"])
+
+        print(tabulate(df, headers="keys", tablefmt="psql", showindex=False))
