@@ -76,7 +76,7 @@ def test_generate_booking_quote_4():
 def test_generate_booking_id():
     df = pd.read_csv("src\\booking_system\\bookings.csv")
 
-    assert booking_system.ProcessingClasses.FileProcessor.generate_booking_id(df) == 10000003
+    assert booking_system.ProcessingClasses.FileProcessor.generate_booking_id(df) == 10000009
 
 def test_customer():
 
