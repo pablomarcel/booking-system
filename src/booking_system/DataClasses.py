@@ -65,7 +65,7 @@ class Customer:
 
 
 class Package:
-    """Stores data about a Customer:
+    """Stores data about a Package:
 
     properties:
         content: (string) with the package contents: dangerous or non dangerous
@@ -140,13 +140,13 @@ class Package:
         """Implicitly returns a string with this object's data"""
         return f"{self.content},{self.weight},{self.volume},{self.delivery_date}"
 
+
 class Shipping:
-    """Stores data about a Customer:
+    """Stores data about a Shipping:
 
     properties:
-        first_name: (string) with the persons's first name
-
-        last_name: (string) with the persons's last name
+        shipping_method: (string) with the shipping method
+        cost: (float) with the shipping cost
     methods:
         to_string() returns comma separated product data (alias for __str__())
 
@@ -189,6 +189,7 @@ class Shipping:
     def __str__(self):
         """Implicitly returns a string with this object's data"""
         return f"{self.shipping_method},{self.cost}"
+
 
 class Booking:
     """Stores data about a single Booking:
@@ -290,7 +291,7 @@ class Booking:
 
 
 class BookingQuote:
-    """Stores data about a shipping options for a Booking:
+    """Stores data about Shipping Quotes:
 
     properties:
         customer: (object) object that represents the customer
@@ -447,6 +448,3 @@ class BookingQuote:
     def __str__(self):
         """Implicitly returns a string with this object's data"""
         return f"{self.customer},{self.package},{self.shipping}"
-
-
-

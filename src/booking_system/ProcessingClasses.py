@@ -10,21 +10,38 @@ import dateutil
 from datetime import datetime
 import re
 
+
 class FileProcessor:
     """Processes data to and from a file and a list of objects:
     methods:
         validate_booking(booking): -> (Boolean)
-        save_data_to_file(file_name,list_of_objects):
-        read_data_from_file(file_name): -> (a list of objects)
+        generate_booking_quote(booking): -> (list of Boolean)
+        update_csv(dframe): -> Nothing
+        update_options_csv(dframe): -> Nothing
+        generate_booking_id(dframe): -> (Integer)
+        append_option_row(df, method, cost): -> Nothing
+        append_option_to_csv(df): -> Nothing
+        append_row(df,
+                id,
+                first,
+                last,
+                contents,
+                weight,
+                volume,
+                deliveryDate,
+                shippingOption,
+                cost): -> (DataFrame)
+
     """
 
     @staticmethod
     def validate_booking(booking):
-        """validate a booking
+        """validates a booking. This method tells whether or not the shipping is possible
         :param booking: (object) object that represents a booking
         :return: (bool) with status of success status
         """
-        # how to translate the representation of an object as variables
+
+        # initializes variables
 
         success_status = False
         heavy = False
@@ -33,6 +50,8 @@ class FileProcessor:
         weight = booking.weight
         volume = booking.volume
         del_date = booking.delivery_date
+
+        # changes variable status according to the rules
 
         if weight >= 10:
             heavy = True
@@ -53,7 +72,11 @@ class FileProcessor:
     def generate_booking_quote(booking):
         """Generate a booking quote if the package can be shipped
         :param booking: (object) object that represents a booking
-        :return: (list) list of objects that represent shipping options
+        :return air: (Boolean) tells if air shipment is possible or not
+        :return truck: (Boolean) tells if truck shipment is possible or not
+        :return ocean: (Boolean) tells if ocean shipment is possible or not
+        :return dangerous: (Boolean) tells if the package is dangerous or not
+        :return urgent: (Boolean) tells if the package is urgent or not
         """
 
         lst_shipping = []
@@ -73,6 +96,8 @@ class FileProcessor:
 
         day_delta = int(delta.days)
 
+        # Determines if the shippment is urgent
+
         if day_delta < 3:
             urgent = True
 
@@ -87,55 +112,15 @@ class FileProcessor:
         if (dangerous == False and urgent == False) or (
             dangerous == True and urgent == False
         ):
-
             ocean = True
 
         return air, truck, ocean, dangerous, urgent
 
     @staticmethod
-    def save_data_to_file(file_name: str, list_of_objects: list):
-        """Write data to a file from a list of object rows
-
-        :param file_name: (string) with name of file
-        :param list_of_objects: (list) of objects data saved to file
-        :return: (bool) with status of success status
-        """
-        success_status = False
-        try:
-            file = open(file_name, "w")
-            for row in list_of_objects:
-                file.write(row.__str__() + "\n")
-            file.close()
-            success_status = True
-        except Exception as e:
-            print("There was a general error!")
-            print(e, e.__doc__, type(e), sep="\n")
-        return success_status
-
-    @staticmethod
-    def read_data_from_file(file_name: str):
-        """Reads data from a file into a list of object rows
-
-        :param file_name: (string) with name of file
-        :return: (list) of object rows
-        """
-        list_of_rows = []
-        try:
-            file = open(file_name, "r")
-            for line in file:
-                row = line.split(",")
-                list_of_rows.append(row)
-            file.close()
-        except Exception as e:
-            print("There was a general error!")
-            print(e, e.__doc__, type(e), sep="\n")
-        return list_of_rows
-
-    @staticmethod
     def update_csv(dframe):
-        """Writes the filtered DataFrame to a csv file.
-        This method is used when the user decides to delete record
-        :param dframe: (Pandas DataFrame) DataFrame containing employee information
+        """Writes a DataFrame to the bookings.csv file.
+        This method is used when the user decides to add a row
+        :param dframe: (Pandas DataFrame) DataFrame containing bookings information
         :return: nothing
         """
 
@@ -143,9 +128,11 @@ class FileProcessor:
 
     @staticmethod
     def update_options_csv(dframe):
-        """Writes the filtered DataFrame to a csv file.
-        This method is used when the user decides to delete record
-        :param dframe: (Pandas DataFrame) DataFrame containing employee information
+        """Writes the Shipping Options DataFrame to a temporary options.csv file.
+        The options.csv is a helper file that temporarily stores
+        a list of shipping options while working on a single booking.
+        This method is used when the user decides to file a booking
+        :param dframe: (Pandas DataFrame) DataFrame containing shipping options
         :return: nothing
         """
 
@@ -153,9 +140,9 @@ class FileProcessor:
 
     @staticmethod
     def generate_booking_id(dframe):
-        """Generates unique employee id for the next employee to be added
-        :param dframe: (Pandas DataFrame) DataFrame containing employee information
-        :return next_id: (Integer) Next ID to be used for an employee record
+        """Generates unique booking id for the next booking to be added
+        :param dframe: (Pandas DataFrame) DataFrame containing bookings information
+        :return next_id: (Integer) Next ID to be used for a booking record
         """
         max_id = dframe["BookingID"].max()
         next_id = max_id + 1
@@ -163,13 +150,11 @@ class FileProcessor:
         return next_id
 
     @staticmethod
-    def append_option_row(
-        df, method, cost
-    ):
+    def append_option_row(df, method, cost):
         """Generates a row of data to be appended to a pandas DataFrame
-        :param dframe: (Pandas DataFrame) DataFrame containing employee information
-        :param id: (Integer) Next ID to be used for an employee record
-        :param first: (String) First Name to be used for an employee record
+        :param dframe: (Pandas DataFrame) DataFrame containing bookings information
+        :param method: (String) Shipping Method
+        :param cost: (Float) Cost
         :return df: (Pandas DataFrame) a new Pandas DataFrame to be written to a csv
         """
 
@@ -186,9 +171,8 @@ class FileProcessor:
 
     @staticmethod
     def append_options_to_csv(df):
-        """Writes a new DataFarme to the csv file.
-        This method is used when the user decides to add a new record to the csv
-        :param df: (Pandas DataFrame) DataFrame containing employee information
+        """Writes to the options.csv
+        :param df: (Pandas DataFrame) DataFrame containing bookings information
         :return: nothing
         """
 
@@ -196,20 +180,28 @@ class FileProcessor:
 
     @staticmethod
     def append_row(
-        df, id, first, last, contents, weight, volume, deliveryDate, shippingOption, cost
+        df,
+        id,
+        first,
+        last,
+        contents,
+        weight,
+        volume,
+        deliveryDate,
+        shippingOption,
+        cost,
     ):
         """Generates a row of data to be appended to a pandas DataFrame
-        :param dframe: (Pandas DataFrame) DataFrame containing employee information
-        :param id: (Integer) Next ID to be used for an employee record
-        :param first: (String) First Name to be used for an employee record
-        :param last: (String) Last Name to be used for an employee record
-        :param full: (String) Full Name to be used for an employee record
-        :param address: (String) Address to be used for an employee record
-        :param ssn: (String) Social Security Number to be used for an employee record
-        :param dob: (String) Date of Birth to be used for an employee record
-        :param job: (String) Job Title to be used for an employee record
-        :param startDate: (String) Start Date to be used for an employee record
-        :param endDate: (String) End Date to be used for an employee record
+        :param dframe: (Pandas DataFrame) DataFrame containing bookings information
+        :param id: (Integer) Next ID to be used for a booking record
+        :param first: (String) First Name
+        :param last: (String) Last Name
+        :param contents: (String) The contents of the package
+        :param weight: (Float) Weight
+        :param Volume: (Float) Volume
+        :param deliveryDate: (String) Delivery Date
+        :param shippingOption: (String) Shipping Option
+        :param cost: (Float) Cost
         :return df: (Pandas DataFrame) a new Pandas DataFrame to be written to a csv
         """
 
@@ -234,7 +226,8 @@ class FileProcessor:
     @staticmethod
     def append_to_csv(df):
         """Writes a new DataFarme to the csv file.
-        This method is used when the user decides to add a new record to the csv
+        This method is used when the system determines it is ok to write to teh
+        bookings.csv file
         :param df: (Pandas DataFrame) DataFrame containing employee information
         :return: nothing
         """
@@ -243,17 +236,3 @@ class FileProcessor:
 
 
 
-# class ValidateBooking:
-#     """Validates a Booking:
-#
-#     properties:
-#         booking: (object) object that represents a booking
-#
-#     methods:
-#         to_string() returns comma separated booking data (alias for __str__())
-#
-#     """
-#     # -- Constructor --
-#     def __init__(self, booking):
-#         # -- Attributes --
-#         self.__booking = booking

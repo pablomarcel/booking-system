@@ -18,6 +18,7 @@ from DataClasses import Package as Pac
 from DataClasses import BookingQuote as BQ
 from DataClasses import Shipping as Ship
 
+
 class UserSelection:
     """Handles User Selection Logic
     the class is used to implement a case-switch construct in python
@@ -45,9 +46,9 @@ class UserSelection:
 
         # instantiates an object of the booking class
 
-        booking = Bk(Cus(firstName,lastName),Pac(contents,weight,volume,deliveryDate))
-
-        print(booking.to_string())
+        booking = Bk(
+            Cus(firstName, lastName), Pac(contents, weight, volume, deliveryDate)
+        )
 
         # Tests to see if the booking is possible. That is, weight less than 10kg
         # and volume less than 125m3
@@ -56,32 +57,41 @@ class UserSelection:
 
         if isPossible:
 
-            # generates the booking options.
-            # calls the method and gets a tuple in return
-            # the tuple contains boolean values for
-            # each variable
 
+            # creates a blank dataframe
 
             df = IO.get_options_db()
             dframe = df[(df.ShippingMethod == 123)]
             new_df = dframe.copy()
-            #print(tabulate(new_df, headers="keys", tablefmt="psql", showindex=False))
+
+            # clears up the helper options.csv file
 
             Fp.update_options_csv(new_df)
+
+            # creates blank dictionaries
 
             options_dict = dict()
             new_dict = dict()
 
+            # generates the booking options.
+            # calls the generate_booking_quote method
+            # and gets a tuple in return.
+            # the tuple contains boolean values for
+            # each variable
+
             air, truck, ocean, dangerous, urgent = Fp.generate_booking_quote(booking)
 
-            options_dict={'air': air, 'truck': truck, 'ocean': ocean}
+            # creates a shipping options dictionary
 
-            # print(options_dict.items())
+            options_dict = {"air": air, "truck": truck, "ocean": ocean}
+
+            # the shipping options dictionary is filtered out by the
+            # shipping options that are actually possible (boolean value = True)
 
             new_dict = {k: v for k, v in options_dict.items() if v == True}
 
             for k, v in new_dict.items():
-                if k == 'air':
+                if k == "air":
                     cost1 = 10 * weight
 
                     highest = cost1
@@ -101,7 +111,7 @@ class UserSelection:
 
                     pass
 
-                elif k=='truck':
+                elif k == "truck":
 
                     if urgent:
 
@@ -121,7 +131,7 @@ class UserSelection:
 
                     pass
 
-                elif k=='ocean':
+                elif k == "ocean":
 
                     highest = 30
 
@@ -138,9 +148,20 @@ class UserSelection:
 
                     pass
 
+            # displays the shipping options to the user
+            # so that the user can decide which
+            # shipping option to book
+
             df_options = IO.get_options_db()
             new_df_options = df_options.copy()
-            print(tabulate(new_df_options, headers="keys", tablefmt="psql", showindex=True))
+
+            print("The possible Shipping Options are: ")
+
+            print(
+                tabulate(
+                    new_df_options, headers="keys", tablefmt="psql", showindex=True
+                )
+            )
 
             # trigger event to ask for user input
 
@@ -152,20 +173,32 @@ class UserSelection:
 
             selected_df = new_df_options.copy()
 
-            print('Selected Shipping Option is: ')
+            # prints the user selected shipping option
 
-            print(tabulate(selected_df, headers="keys", tablefmt="psql", showindex=False))
+            print("Selected Shipping Option is: ")
+
+            print(
+                tabulate(selected_df, headers="keys", tablefmt="psql", showindex=False)
+            )
 
             # trigger event for appending to bookings csv file
 
-            shipping_method = selected_df.iat[0,0]
-            cost = selected_df.iat[0,1]
+            # reads the selected Shipping Option from a dataframe
+
+            shipping_method = selected_df.iat[0, 0]
+            cost = selected_df.iat[0, 1]
+
+            # creates a Shipping object
 
             shipping = Ship(shipping_method, cost)
 
-            booking_quote = BQ(Cus(firstName,lastName),
-                               Pac(contents,weight,volume,deliveryDate),
-                               Ship(shipping_method, cost))
+            # creates a BookingQuote Object
+
+            booking_quote = BQ(
+                Cus(firstName, lastName),
+                Pac(contents, weight, volume, deliveryDate),
+                Ship(shipping_method, cost),
+            )
 
             # trigger event to append booking quote to bookings csv file
 
@@ -175,9 +208,9 @@ class UserSelection:
 
         else:
 
-            print('Booking Not Possible. Try Again! ')
-
-
+            # if the booking is not possible according to the rules
+            # the user is notified
+            print("Booking Not Possible. Try Again! ")
 
         pass
 
@@ -193,52 +226,58 @@ class UserSelection:
         """User selected Display Cost Statistics"""
 
         df = IO.get_bookings_db()
-        df = df[['cost']]
+        df = df[["cost"]]
         dframe = df.copy()
 
-        print(tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True))
+        print(
+            tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True)
+        )
 
         pass
 
     def case_4(self):
         """User selected Display Shipping Option Statistics"""
-        # trigger an action
 
         df = IO.get_bookings_db()
-        df = df[['shippingOption']]
-        dframe=df.copy()
+        df = df[["shippingOption"]]
+        dframe = df.copy()
 
-        print(tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True))
+        print(
+            tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True)
+        )
 
         pass
 
     def case_5(self):
         """User selected Display Weight Statistics"""
-        # trigger an action
 
         df = IO.get_bookings_db()
-        df = df[['weight']]
+        df = df[["weight"]]
         dframe = df.copy()
 
-        print(tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True))
+        print(
+            tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True)
+        )
         pass
 
     def case_6(self):
         """User selected Display Volume Statistics"""
+
         df = IO.get_bookings_db()
-        df = df[['volume']]
+        df = df[["volume"]]
         dframe = df.copy()
 
-        print(tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True))
+        print(
+            tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True)
+        )
         pass
 
     def case_7(self):
         """User selected Exit"""
-        # trigger an action
+
         print("Goodbye ")
 
         sys.exit()
-
 
 class IO:
     """Performs Input and Output tasks"""
@@ -252,7 +291,6 @@ class IO:
 
         def one():
             return "1) Book a Shippment"
-
 
         def two():
             return "2) Display all Bookings"
@@ -307,7 +345,7 @@ class IO:
 
     @staticmethod
     def input_booking_choice():
-        """Gets the menu choice from a user
+        """Gets the Booking choice from a user
         :param: None
         :return: string
         """
@@ -315,10 +353,12 @@ class IO:
         while True:
             try:
                 choice = str(
-                    input("Which booking option would you like? Enter Number Option - ")
+                    input("Which Booking Option would you like? Enter Number Option - ")
                 )
-                if choice not in ['0', '1', '2']:
-                    raise ValueError("Choice not an option, possible values are 0, 1, 2")
+                if choice not in ["0", "1", "2"]:
+                    raise ValueError(
+                        "Choice not an option, possible values are 0, 1, 2"
+                    )
             except ValueError as e:
                 print(e)
             else:
@@ -335,7 +375,6 @@ class IO:
         """
         print(optional_message)
         input("Press the [Enter] key to continue.")
-
 
     @staticmethod
     def capture_booking_data(dframe):
@@ -374,7 +413,7 @@ class IO:
     def capture_first_name():
         """Captures First Name
         :param:  None
-        :return: Nothing
+        :return strText: (String) First Name
         """
         while True:
             try:
@@ -396,7 +435,7 @@ class IO:
     def capture_last_name():
         """Captures Last Name
         :param:  None
-        :return: Nothing
+        :return strText: (String) Last Name
         """
         while True:
             try:
@@ -416,11 +455,13 @@ class IO:
     def capture_contents():
         """Captures Contents
         :param:  None
-        :return strText: (String) Package Contents
+        :return strText: (String) Package Contents/Description
         """
         while True:
             try:
-                strText = str(input("Enter Contents, Enter Dangerous if Dangerous: ")).strip()
+                strText = str(
+                    input("Enter Contents, Enter Dangerous if Dangerous: ")
+                ).strip()
                 if strText.isnumeric():
                     raise ValueError("Content is Numeric. Enter a valid content: ")
                 elif strText == "":
@@ -443,7 +484,7 @@ class IO:
                 strText = float(input("Enter Weight: "))
 
             except ValueError:
-                print('Not a number! Try again. ')
+                print("Not a number! Try again. ")
                 continue
             else:
                 break
@@ -461,7 +502,7 @@ class IO:
                 strText = float(input("Enter Volume: "))
 
             except ValueError:
-                print('Not a number! Try again. ')
+                print("Not a number! Try again. ")
                 continue
             else:
                 break
@@ -470,7 +511,7 @@ class IO:
 
     @staticmethod
     def capture_delivery_date():
-        """Captures Date of Birth
+        """Captures Delivery Date
         :param:  None
         :return strText: (String) Delivery Date
         """
@@ -503,7 +544,7 @@ class IO:
 
     @staticmethod
     def get_options_db():
-        """Reads the csv and puts it in a pandas dataframe
+        """Reads the helper options.csv file and puts it in a pandas dataframe
         :param: None
         :return df: (Data Frame) a pandas dataframe
         """
@@ -514,9 +555,9 @@ class IO:
 
     @staticmethod
     def add_booking_quote(booking_quote):
-        """Writes a new DataFarme to the csv file.
+        """Writes a new row to the bookings.csv file.
         This method is used when the user decides to add a new record to the csv
-        :param df: (Pandas DataFrame) DataFrame containing employee information
+        :param df: (Pandas DataFrame) DataFrame containing bookings information
         :return: nothing
         """
         df = IO.get_bookings_db()
@@ -553,9 +594,8 @@ class IO:
         :param dframe: (Pandas DataFrame) a Pandas DataFrame containing all employee info.
         :return: nothing
         """
-        # IO.print_header()
-        # print("List of all employees: ")
-        # IO.print_footer()
+
+        print("These are all the Booking Quotes so far: ")
 
         df = dframe.copy()
 

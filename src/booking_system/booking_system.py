@@ -19,6 +19,8 @@ if __name__ == "__main__":
 
     while True:
 
+        # menu printed
+
         print(result)
         print("Menu of Options")
         print(io.get_menu(1))
@@ -30,9 +32,11 @@ if __name__ == "__main__":
         print(io.get_menu(7))
         print()
 
-        # menu printed
+        # Prompt the user for menu choice
 
-        strChoice = io.input_menu_choice()  # Get menu option
+        strChoice = io.input_menu_choice()
+
+        #creates a UserSelection object
 
         s = us()
         s.switch(
