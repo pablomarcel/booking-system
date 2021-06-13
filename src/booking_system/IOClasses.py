@@ -187,35 +187,49 @@ class UserSelection:
 
         IO.print_all_bookings(IO.get_bookings_db())
 
-
-
         pass
 
     def case_3(self):
-        """User selected Print Statistics"""
+        """User selected Display Cost Statistics"""
 
         df = IO.get_bookings_db()
-        df = df[['weight', 'volume', 'cost']]
+        df = df[['cost']]
         dframe = df.copy()
 
         print(tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True))
 
-        # trigger an action
         pass
 
     def case_4(self):
-        """User selected Display a reminder to schedule annual review"""
+        """User selected Display Shipping Option Statistics"""
         # trigger an action
+
+        df = IO.get_bookings_db()
+        df = df[['shippingOption']]
+        dframe=df.copy()
+
+        print(tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True))
+
         pass
 
     def case_5(self):
-        """User selected Capture employee information"""
+        """User selected Display Weight Statistics"""
         # trigger an action
+
+        df = IO.get_bookings_db()
+        df = df[['weight']]
+        dframe = df.copy()
+
+        print(tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True))
         pass
 
     def case_6(self):
-        """User selected Delete record"""
-        # trigger an action
+        """User selected Display Volume Statistics"""
+        df = IO.get_bookings_db()
+        df = df[['volume']]
+        dframe = df.copy()
+
+        print(tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True))
         pass
 
     def case_7(self):
@@ -244,16 +258,16 @@ class IO:
             return "2) Display all Bookings"
 
         def three():
-            return "3) Display Statistics about all Bookings"
+            return "3) Display Cost Statistics about all Bookings"
 
         def four():
-            return "4) Display reminder to schedule annual review"
+            return "4) Display Shipping Option Statistics about all Bookings"
 
         def five():
-            return "5) Capture employee information"
+            return "5) Display Weight Statistics about all Bookings"
 
         def six():
-            return "6) Delete record"
+            return "6) Display Volume Statistics about all Bookings"
 
         def seven():
             return "7) Exit"
