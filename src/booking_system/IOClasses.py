@@ -192,7 +192,14 @@ class UserSelection:
         pass
 
     def case_3(self):
-        """User selected Print a list of employees who have left in the past month"""
+        """User selected Print Statistics"""
+
+        df = IO.get_bookings_db()
+        df = df[['weight', 'volume', 'cost']]
+        dframe = df.copy()
+
+        print(tabulate(dframe.describe(), headers="keys", tablefmt="psql", showindex=True))
+
         # trigger an action
         pass
 
@@ -237,7 +244,7 @@ class IO:
             return "2) Display all Bookings"
 
         def three():
-            return "3) Print a list of employees who have left in the past month"
+            return "3) Display Statistics about all Bookings"
 
         def four():
             return "4) Display reminder to schedule annual review"
