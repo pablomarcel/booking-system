@@ -1,10 +1,16 @@
 #import booking_system.booking_system
+from unittest.mock import patch
+
 import booking_system.ProcessingClasses
 import booking_system.DataClasses
 # import booking_system.IOClasses
 import pandas as pd
+# from booking_system.ProcessingClasses import FileProcessor as Fp
 from pandas._testing import assert_frame_equal
 import re
+import mock
+import builtins
+import booking_system.DataCapture
 
 # Validate if a package can be shipped
 
@@ -76,7 +82,7 @@ def test_generate_booking_quote_4():
 def test_generate_booking_id():
     df = pd.read_csv("src\\booking_system\\bookings.csv")
 
-    assert booking_system.ProcessingClasses.FileProcessor.generate_booking_id(df) == 10000009
+    assert booking_system.ProcessingClasses.FileProcessor.generate_booking_id(df) == 10000012
 
 def test_customer():
 
@@ -151,6 +157,30 @@ def test_booking_quote():
     assert booking_quote1.delivery_date == deliveryDate
     assert booking_quote1.weight == weight
     assert booking_quote1.volume == volume
+
+def test_capture_first_name():
+    with mock.patch.object(builtins, 'input', lambda _: 'Albert'):
+        assert booking_system.DataCapture.InputOutput.capture_first_name() == 'Albert'
+
+def test_capture_last_name():
+    with mock.patch.object(builtins, 'input', lambda _: 'King'):
+        assert booking_system.DataCapture.InputOutput.capture_last_name() == 'King'
+
+def test_capture_contents():
+    with mock.patch.object(builtins, 'input', lambda _: 'Dangerous'):
+        assert booking_system.DataCapture.InputOutput.capture_contents() == 'Dangerous'
+
+def test_capture_weight():
+    with mock.patch.object(builtins, 'input', lambda _: 1.0):
+        assert booking_system.DataCapture.InputOutput.capture_weight() == 1.0
+
+def test_capture_volume():
+    with mock.patch.object(builtins, 'input', lambda _: 50.0):
+        assert booking_system.DataCapture.InputOutput.capture_volume() == 50.0
+
+def test_capture_delivery_date():
+    with mock.patch.object(builtins, 'input', lambda _: '6/20/21'):
+        assert booking_system.DataCapture.InputOutput.capture_delivery_date() == '6/20/21'
 
 
 

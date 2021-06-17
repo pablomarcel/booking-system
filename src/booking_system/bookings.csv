@@ -6,4 +6,7 @@ BookingID,firstName,lastName,contents,weight,volume,deliveryDate,shippingOption,
 10000005,Butters,Stotch,Non-Dangerous,1.0,1.0,06/14/21,air,20.0
 10000006,Bill,Gates,Non-Dangerous,2.0,2.0,06/14/21,air,40.0
 10000007,Jeff,Bezos,Dangerous,4.0,4.0,07/01/21,truck,25.0
-10000008,Elon,Musk,Non-Dangerous,4.5,4.5,09/01/21,ocean,30
+10000008,Elon,Musk,Non-Dangerous,4.5,4.5,09/01/21,ocean,30.0
+10000009,Warren,Buffet,Non-Dangerous,1.0,1.0,06/18/21,air,20.0
+10000010,Alicia,Keys,Non-Dangerous,1.0,1.0,06/20/21,ocean,30.0
+10000011,Joe,Bonamassa,Non-Dangerous,1.0,1.0,06/20/21,truck,25
